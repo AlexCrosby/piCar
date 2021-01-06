@@ -1,5 +1,5 @@
 from connection import Connection
-from controller import Controller
+from gamepad import Controller
 
 if __name__ == '__main__':
     connection = Connection('http://localhost:5000')

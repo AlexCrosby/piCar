@@ -1,7 +1,7 @@
 import inputs
 
 
-class Controller:
+class Gamepad:
 
     def __init__(self, connection):
         self.connection = connection

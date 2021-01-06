@@ -16,22 +16,37 @@ class Camera:
         self.thread = threading.Thread(target=self.camera_thread)
         self.thread.start()
 
+    def increase_fps(self):
+        if self.fps == 60:
+            return
+        elif self.fps == 1:
+            self.fps = 10
+        else:
+            self.fps += 10
+
+    def decrease_fps(self):
+        if self.fps == 1:
+            return
+        elif self.fps == 10:
+            self.fps = 1
+        else:
+            self.fps -= 10
 
     def camera_thread(self):
         print("Camera thread running.")
         self.cam = cv2.VideoCapture(0)
         while True:
             _, frame = self.cam.read()
-            #frame = self.process_frame(frame)
+            # frame = self.process_frame(frame)
             _, frame = cv2.imencode('.jpg', frame)
             self.image = frame.tobytes()
-            time.sleep(1/self.fps)
+            time.sleep(1 / self.fps)
 
     def get_frame(self):
         while True:
             try:
                 yield (b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' + self.image + b'\r\n\r\n')
-                eventlet.sleep(1/self.fps)
+                eventlet.sleep(1 / self.fps)
             except GeneratorExit:
                 break
 

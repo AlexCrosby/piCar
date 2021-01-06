@@ -1,15 +1,15 @@
 from flask import Flask, request, Response
 from flask_socketio import SocketIO
 import cv2
-import eventlet
 
 
 class WebServer:
 
-    def __init__(self,camera, log_output):
-        self.camera=camera
+    def __init__(self, camera, controller, log_output):
+        self.camera = camera
+        self.controller = controller
         self.app = Flask(__name__)
-        self.socketio = SocketIO(self.app)
+        self.socketio = SocketIO(self.app, cors_allowed_origins="*")
         self.video = cv2.VideoCapture(0)
         self.setup_routes()
         self.setup_socketio()
@@ -23,6 +23,11 @@ class WebServer:
         self.socketio.on_event('connect', self.connect)
         self.socketio.on_event('disconnect', self.disconnect)
         self.socketio.on_event('command', self.handle_command)
+
+    def get_state(self):
+        status = {}
+        status['fps'] = self.camera.fps
+        self.socketio.emit('status', status)
 
     # ==================== ------ API Calls ------- ====================
 
@@ -39,8 +44,7 @@ class WebServer:
     </html>'''
 
     def video_feed(self):
-
-        #return Response(self.camera.playback(), mimetype='multipart/x-mixed-replace; boundary=frame')
+        # return Response(self.camera.playback(), mimetype='multipart/x-mixed-replace; boundary=frame')
         return Response(self.camera.get_frame(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     # ==================== ------ Socket Calls ------- ====================
@@ -66,5 +70,5 @@ class WebServer:
 
     def handle_command(self, data):
         print(f"Received command: {data} " + request.sid)
-
-
+        for command, value in data.items():
+            self.controller.handle_command(command, value)

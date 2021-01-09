@@ -58,12 +58,13 @@ class Controller:
     def update_speed(self, speed):
         print(f'Speed set to {speed}')
         speed = self.map(speed, -1, 1, -100, 100)
+        print("Actual speed " + str(speed))
         for motor in [self.motorA, self.motorB]:
             if speed >= 0:
                 motor.forward()
             else:
                 motor.backward()
-            motor.speed = speed
+            motor.speed = abs(speed)
 
     def update_turn(self, turn):
         print(f'Turn set to {turn}')

@@ -1,5 +1,6 @@
 from servo import Servo
 from TB6612 import Motor
+import PCA9685
 import RPi.GPIO as GPIO
 
 
@@ -12,23 +13,20 @@ class Controller:
         self.left = 0
         self.right = 0
 
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup((27, 22), GPIO.OUT)
-        self.a = GPIO.PWM(27, 60)
-        self.b = GPIO.PWM(22, 60)
-        self.a.start(0)
-        self.b.start(0)
+        self.left_wheel = Motor(17, offset=0)
+        self.right_wheel = Motor(27, offset=0)
 
-        self.motorA = Motor(23)
-        self.motorB = Motor(24)
-        self.motorA.pwm = self.a_speed
-        self.motorB.pwm = self.b_speed
+        self.pwm = PCA9685.PWM(bus_number=1)
+        self.left_wheel.pwm = self.set_pwm_a
+        self.right_wheel.pwm = self.set_pwm_b
 
-    def a_speed(self, value):
-        self.a.ChangeDutyCycle(value)
+    def set_pwm_a(self, value):
+        pulse_wide = int(self.pwm.map(value, 0, 100, 0, 4095))
+        self.pwm.write(4, 0, pulse_wide)
 
-    def b_speed(self, value):
-        self.b.ChangeDutyCycle(value)
+    def set_pwm_b(self, value):
+        pulse_wide = int(self.pwm.map(value, 0, 100, 0, 4095))
+        self.pwm.write(5, 0, pulse_wide)
 
     def handle_command(self, command, value):
         if command in ['DPadUp', 'DPadDown']:

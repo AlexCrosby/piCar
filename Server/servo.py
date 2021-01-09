@@ -85,6 +85,7 @@ class Servo(object):
         val += self.offset
         self.pwm.write(self.channel, 0, val)
         self._debug_('Turn angle = %d' % angle)
+        print("servo turned to"+angle)
 
     @property
     def debug(self):

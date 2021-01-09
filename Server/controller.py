@@ -5,13 +5,14 @@ import RPi.GPIO as GPIO
 
 
 class Controller:
-    def __init__(self, camera):
+    def __init__(self, camera, offset=0):
         self.servo = Servo(0)
         self.camera = camera
         self.forward = 0
         self.backward = 0
         self.left = 0
         self.right = 0
+        self.offset = offset
 
         self.left_wheel = Motor(17, offset=0)
         self.right_wheel = Motor(27, offset=0)
@@ -66,7 +67,9 @@ class Controller:
 
     def update_turn(self, turn):
         print(f'Turn set to {turn}')
-        self.servo.write(self.map(turn, -1, 1, 0, 180))
+        turn = self.map(turn, -1, 1, 0, 180)
+        turn += self.offset
+        self.servo.write(turn)
 
     @staticmethod
     def map(x, in_min, in_max, out_min, out_max):

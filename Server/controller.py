@@ -1,5 +1,6 @@
 from servo import Servo
 from TB6612 import Motor
+import RPi.GPIO as GPIO
 
 
 class Controller:
@@ -10,8 +11,24 @@ class Controller:
         self.backward = 0
         self.left = 0
         self.right = 0
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup((27, 22), GPIO.OUT)
+        self.a = GPIO.PWM(27, 60)
+        self.b = GPIO.PWM(22, 60)
+        self.a.start(0)
+        self.b.start(0)
+
         self.motorA = Motor(23)
         self.motorB = Motor(24)
+        self.motorA.pwm = self.a_speed
+        self.motorB.pwm = self.b_speed
+
+    def a_speed(self, value):
+        self.a.ChangeDutyCycle(value)
+
+    def b_speed(self, value):
+        self.b.ChangeDutyCycle(value)
 
     def handle_command(self, command, value):
         if command in ['DPadUp', 'DPadDown']:
@@ -42,7 +59,7 @@ class Controller:
         print(f'Speed set to {speed}')
         speed = self.map(speed, -1, 1, -100, 100)
         for motor in [self.motorA, self.motorB]:
-            if speed >= 0 :
+            if speed >= 0:
                 motor.forward()
             else:
                 motor.backward()

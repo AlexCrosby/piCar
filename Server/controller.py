@@ -1,8 +1,6 @@
 from servo import Servo
 from TB6612 import Motor
 import PCA9685
-import RPi.GPIO as GPIO
-
 
 class Controller:
     def __init__(self, camera, offset=0):
@@ -20,6 +18,7 @@ class Controller:
         self.pwm = PCA9685.PWM(bus_number=1)
         self.left_wheel.pwm = self.set_pwm_a
         self.right_wheel.pwm = self.set_pwm_b
+        self.update_turn(offset)
 
     def set_pwm_a(self, value):
         pulse_wide = int(self.pwm.map(value, 0, 100, 0, 4095))

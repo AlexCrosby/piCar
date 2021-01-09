@@ -10,10 +10,9 @@ class WebServer:
         self.controller = controller
         self.app = Flask(__name__)
         self.socketio = SocketIO(self.app, cors_allowed_origins="*")
-        self.video = cv2.VideoCapture(0)
         self.setup_routes()
         self.setup_socketio()
-        self.socketio.run(self.app, log_output=log_output)
+        self.socketio.run(self.app, log_output=log_output, host='0.0.0.0')
 
     def setup_routes(self):
         self.app.add_url_rule('/', 'index', self.index)

@@ -1,14 +1,17 @@
 from servo import Servo
+from TB6612 import Motor
 
 
 class Controller:
     def __init__(self, camera):
-        self.servo = Servo(1)
+        self.servo = Servo(0)
         self.camera = camera
         self.forward = 0
         self.backward = 0
         self.left = 0
         self.right = 0
+        self.motorA = Motor(23)
+        self.motorB = Motor(24)
 
     def handle_command(self, command, value):
         if command in ['DPadUp', 'DPadDown']:
@@ -37,6 +40,13 @@ class Controller:
 
     def update_speed(self, speed):
         print(f'Speed set to {speed}')
+        speed = self.map(speed, -1, 1, -100, 100)
+        for motor in [self.motorA, self.motorB]:
+            if speed >= 0 :
+                motor.forward()
+            else:
+                motor.backward()
+            motor.speed = speed
 
     def update_turn(self, turn):
         print(f'Turn set to {turn}')

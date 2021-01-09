@@ -57,7 +57,7 @@ class Controller:
         print(f'Speed set to {speed}')
         speed = self.map(speed, -1, 1, -100, 100)
         print("Actual speed " + str(speed))
-        for motor in [self.motorA, self.motorB]:
+        for motor in [self.left_wheel, self.right_wheel]:
             if speed >= 0:
                 motor.forward()
             else:

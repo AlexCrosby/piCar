@@ -1,11 +1,14 @@
+from servo import Servo
+
+
 class Controller:
     def __init__(self, camera):
+        self.servo = Servo(1)
         self.camera = camera
         self.forward = 0
         self.backward = 0
         self.left = 0
         self.right = 0
-
 
     def handle_command(self, command, value):
         if command in ['DPadUp', 'DPadDown']:
@@ -37,3 +40,8 @@ class Controller:
 
     def update_turn(self, turn):
         print(f'Turn set to {turn}')
+        self.servo.write(self.map(turn, -1, 1, 0, 180))
+
+    @staticmethod
+    def map(x, in_min, in_max, out_min, out_max):
+        return int(((x - in_min) * (out_max - out_min)) / ((in_max - in_min) + out_min))

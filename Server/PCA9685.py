@@ -39,7 +39,7 @@ class PWM(object):
     _INVRT = 0x10
     _OUTDRV = 0x04
 
-    _DEBUG = False
+    _DEBUG = True
     _DEBUG_INFO = 'DEBUG "PCA9685.py":'
 
     def __init__(self, bus_number=1, address=0x40):
@@ -199,16 +199,16 @@ class PWM(object):
             print(self._DEBUG_INFO, "Set debug off")
 
 
-if __name__ == '__main__':
-    import time
-
-    pwm = PWM()
-    pwm.frequency = 60
-    for i in range(16):
-        time.sleep(0.5)
-        print('\nChannel %d\n' % i)
-        time.sleep(0.5)
-        for j in range(4096):
-            pwm.write(i, 0, j)
-            print('PWM value: %d' % j)
-            time.sleep(0.0003)
+# if __name__ == '__main__':
+#     import time
+#
+#     pwm = PWM()
+#     pwm.frequency = 60
+#     for i in range(16):
+#         time.sleep(0.5)
+#         print('\nChannel %d\n' % i)
+#         time.sleep(0.5)
+#         for j in range(4096):
+#             pwm.write(i, 0, j)
+#             print('PWM value: %d' % j)
+#             time.sleep(0.0003)

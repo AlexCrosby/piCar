@@ -8,7 +8,7 @@ class WebServer:
     def __init__(self, camera, controller, log_output):
         self.camera = camera
         self.controller = controller
-        self.app = Flask(__name__)
+        self.app = Flask(__name__, static_folder='../build', static_url_path='/')
         self.socketio = SocketIO(self.app, cors_allowed_origins="*")
         self.setup_routes()
         self.setup_socketio()
@@ -32,17 +32,9 @@ class WebServer:
 
     # ==================== ------ API Calls ------- ====================
 
-    @staticmethod
-    def index():
-        return '''<html>
-      <head>
-        <title>Car Stream</title>
-      </head>
-      <body>
-        <h1>Car Stream</h1>
-        <img src="http://127.0.0.1:5000/video_feed">
-      </body>
-    </html>'''
+
+    def index(self):
+        return self.app.send_static_file('index.html')
 
     def video_feed(self):
         # return Response(self.camera.playback(), mimetype='multipart/x-mixed-replace; boundary=frame')

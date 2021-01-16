@@ -4,7 +4,7 @@ from controller import Controller
 
 if __name__ == '__main__':
     print('Starting camera')
-    camera = Camera(fps=20)
+    camera = None
     print('Starting controller')
     controller = Controller(camera=camera, offset=7)
     print('Starting Web Server')

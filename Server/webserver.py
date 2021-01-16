@@ -16,7 +16,8 @@ class WebServer:
 
     def setup_routes(self):
         self.app.add_url_rule('/', 'index', self.index)
-        self.app.add_url_rule('/video_feed', 'video_feed', self.video_feed)
+        if self.camera is not None:
+            self.app.add_url_rule('/video_feed', 'video_feed', self.video_feed)
 
     def setup_socketio(self):
         self.socketio.on_event('connect', self.connect)
@@ -25,7 +26,8 @@ class WebServer:
 
     def get_state(self):
         status = {}
-        status['fps'] = self.camera.fps
+        if self.camera is not None:
+            status['fps'] = self.camera.fps
         self.socketio.emit('status', status)
 
     # ==================== ------ API Calls ------- ====================
@@ -44,7 +46,8 @@ class WebServer:
 
     def video_feed(self):
         # return Response(self.camera.playback(), mimetype='multipart/x-mixed-replace; boundary=frame')
-        return Response(self.camera.get_frame(), mimetype='multipart/x-mixed-replace; boundary=frame')
+        if self.camera is not None:
+            return Response(self.camera.get_frame(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
     # ==================== ------ Socket Calls ------- ====================
 

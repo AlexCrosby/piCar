@@ -48,10 +48,11 @@ class Controller:
             self.update_turn(self.right - self.left)
 
     def change_fps(self, value):
-        if value == 1:
-            self.camera.increase_fps()
-        elif value == -1:
-            self.camera.decrease_fps()
+        if self.camera is not None:
+            if value == 1:
+                self.camera.increase_fps()
+            elif value == -1:
+                self.camera.decrease_fps()
 
     def update_speed(self, speed):
 

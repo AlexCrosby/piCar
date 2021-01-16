@@ -12,6 +12,7 @@ class Controller:
 
         if not Controller.dev:
             self.servo = Servo(0)
+            self.servo.setup()
             self.left_wheel = Motor(17, offset=0)
             self.right_wheel = Motor(27, offset=0)
             self.pwm = PCA9685.PWM(bus_number=1)

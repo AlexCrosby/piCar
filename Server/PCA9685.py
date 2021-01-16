@@ -39,7 +39,7 @@ class PWM(object):
     _INVRT = 0x10
     _OUTDRV = 0x04
 
-    _DEBUG = True
+    _DEBUG = False
     _DEBUG_INFO = 'DEBUG "PCA9685.py":'
 
     def __init__(self, bus_number=1, address=0x40):

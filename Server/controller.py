@@ -66,7 +66,7 @@ class Controller:
 
     def update_turn(self, turn):
 
-        turn = self.map(turn, -1, 1, 0, 180)
+        turn = self.map(turn, -1, 1, 45, 135)
         # print(f'Turn set to {turn} ({turn+self.offset})')
         turn += self.offset
         if not Controller.dev:

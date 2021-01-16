@@ -69,6 +69,7 @@ class WebServer:
 
     def disconnect(self):
         print('Client disconnected: ' + request.sid)
+        self.controller.stop_car()
 
     def handle_command(self, data):
         print(f"Received command: {data} " + request.sid)

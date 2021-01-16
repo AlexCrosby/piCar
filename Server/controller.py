@@ -78,7 +78,9 @@ class Controller:
     def map(x, in_min, in_max, out_min, out_max):
         return int((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
-
+    def stop_car(self):
+        self.update_turn(0)
+        self.update_speed(0)
 try:
     from servo import Servo
     from TB6612 import Motor

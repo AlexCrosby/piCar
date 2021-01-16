@@ -22,7 +22,7 @@ class Servo(object):
     _DEFAULT_PULSE_WIDTH = 1500
     _FREQUENCY = 60
 
-    _DEBUG = True
+    _DEBUG = False
     _DEBUG_INFO = 'DEBUG "servo.py":'
 
     def __init__(self, channel, offset=0, lock=True, bus_number=1, address=0x40):

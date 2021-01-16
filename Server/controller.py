@@ -31,10 +31,10 @@ class Controller:
     def handle_command(self, command, value):
         if command in ['DPadUp', 'DPadDown']:
             self.change_fps(value)
-        elif command in ['RT', 'KeyW']:
+        elif command in ['RightTrigger', 'KeyW']:
             self.forward = value
             self.update_speed(self.forward - self.backward)
-        elif command in ['LT', 'KeyS']:
+        elif command in ['LeftTrigger', 'KeyS']:
 
             self.backward = value
             self.update_speed(self.forward - self.backward)

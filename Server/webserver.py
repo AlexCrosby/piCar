@@ -12,7 +12,8 @@ class WebServer:
         self.socketio = SocketIO(self.app, cors_allowed_origins="*")
         self.setup_routes()
         self.setup_socketio()
-        self.socketio.run(self.app, log_output=log_output, host='0.0.0.0')
+        self.socketio.run(self.app, log_output=log_output, host='0.0.0.0',certfile='/etc/letsencrypt/live/picar1.duckdns.org/fullchain.pem',
+                          keyfile='/etc/letsencrypt/live/picar1.duckdns.org/privkey.pem')
 
     def setup_routes(self):
         self.app.add_url_rule('/', 'index', self.index)
